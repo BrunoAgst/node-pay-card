@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose')
-const enumStatus = require('../utils/statusEnum')
+const enumStatus = require('../../utils/EnumStatus')
 
 const orderSchema = new Schema({
     store_name: String,

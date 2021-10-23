@@ -1,6 +1,6 @@
 const { expect } = require('chai')
 const { describe, it } = require('mocha')
-const createRequest = require('../../src/schemas/createRequest')
+const createRequest = require('../../../src/schemas/joi/createRequest')
 describe('test createRequest', () => {
     it('return success', () => {
         const payload = {
