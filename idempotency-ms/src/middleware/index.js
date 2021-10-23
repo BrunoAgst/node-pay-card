@@ -1,4 +1,4 @@
-const createRequest = require('../schemas/createRequest')
+const createRequest = require('../schemas/joi/createRequest')
 module.exports = {
     create: (req, res, next) => {
         const { error } = createRequest.validate(req.body)
