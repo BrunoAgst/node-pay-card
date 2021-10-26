@@ -6,8 +6,8 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon --inspect node src/index.js"
+    "start": "node --inspect src/index.js",
+    "dev": "nodemon --inspect src/index.js"
   },
   "keywords": [],
   "author": "Bruno Augusto",
