@@ -1,6 +1,7 @@
 const logger = require('../config/logger')
 const registerOrder = require('../services/registerOrder')
 const orderFactory = require('../factories/orderFactory')
+const requestSwitch = require('../services/request')
 
 module.exports = {
     create: async (req, res) => {
@@ -8,7 +9,8 @@ module.exports = {
             const payload = req.body
             const order = orderFactory(payload)
             await registerOrder(order)
-                        
+            await requestSwitch(payload)
+            
             res.status(200).json({
                 message: 'transaction success',
                 isValid: true
