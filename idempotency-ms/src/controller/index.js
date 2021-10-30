@@ -13,7 +13,7 @@ module.exports = {
             await requestSwitch({id: orderCreated.message._id.toString(), transaction: payload.transaction})
 
             const interval = setInterval(async () => {
-                const response = await pollingRedis('order_ids')
+                const response = await pollingRedis(id)
                 if (response !== null) {
                     clearInterval(interval)
                     return res.status(200).json({
