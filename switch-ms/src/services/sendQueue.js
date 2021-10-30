@@ -6,7 +6,7 @@ module.exports = (message) => {
         if (error) throw error
         connection.createChannel(function (error1, channel){
             if (error1) throw error1
-            const queue = 'payment'
+            const queue = process.env.QUEUE_NAME
 
             channel.assertQueue(queue, {
                 durable: false
