@@ -15,16 +15,16 @@ module.exports = () => {
                 return error
             }
 
-            const queue = 'payment';
+            const queue = process.env.QUEUE_NAME
 
             channel.assertQueue(queue, {
                 durable: false
             });
 
             channel.consume(queue, async function(msg) {
-                console.log(msg.content.toString())
-                const message = JSON.parse(msg.content.toString())
-                await sendRedis(message)
+                logger.info(msg.content.toString())
+                const response = JSON.parse(msg.content.toString())
+                await sendRedis(response.id, { id: response.id, status: 'SUCCESS'})
             }, {
                 noAck: true
             });
