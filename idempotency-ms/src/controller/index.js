@@ -10,11 +10,13 @@ module.exports = {
             const payload = req.body
             const order = orderFactory(payload)
             const orderCreated = await registerOrder(order)
-            await requestSwitch({id: orderCreated.message._id.toString(), transaction: payload.transaction})
+            const id = orderCreated.message._id.toString()
+            await requestSwitch.postRequest({id, transaction: payload.transaction})
 
             const interval = setInterval(async () => {
-                const response = await pollingRedis(id)
-                if (response !== null) {
+                let response = await pollingRedis(id)
+                
+                if (response) {
                     clearInterval(interval)
                     return res.status(200).json({
                         message: 'transaction success',
