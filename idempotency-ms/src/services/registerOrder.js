@@ -1,6 +1,7 @@
 const orderSchema = require('../schemas/database/order')
 const customerSchema = require('../schemas/database/customer')
 const transactionSchema = require('../schemas/database/transaction')
+const logger = require('../config/logger')
 
 module.exports = async (payload) => {
     try {
@@ -28,6 +29,7 @@ module.exports = async (payload) => {
         }
 
     } catch (error) {
-        return { error }
+        logger.error(error)
+        return { error, isValid: false }
     }
 }

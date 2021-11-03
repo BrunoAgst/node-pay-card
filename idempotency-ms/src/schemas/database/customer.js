@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose')
 
 const customerSchema = new Schema({
-    customer_name: String,
+    name: String,
     age: Number,
     email: String,
     tax_id: String,
