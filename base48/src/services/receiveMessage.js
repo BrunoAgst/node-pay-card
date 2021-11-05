@@ -1,4 +1,5 @@
 const amqp = require("amqplib/callback_api");
+const operation = require('../operation')
 const logger = require("../config/logger");
 
 module.exports = () => {
@@ -23,7 +24,8 @@ module.exports = () => {
       channel.consume(
         queue,
         async function (msg) {
-          logger.info(msg.content.toString())
+            logger.info(msg.content.toString())
+            await operation.create(JSON.stringify(msg))
         },
         {
           noAck: true,
