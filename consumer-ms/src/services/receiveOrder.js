@@ -1,5 +1,6 @@
 const amqp = require('amqplib/callback_api')
 const logger = require('../config/logger')
+const getId = require('../util/getId')
 const sendRedis = require('../services/sendRedis')
 
 module.exports = () => {
@@ -23,8 +24,8 @@ module.exports = () => {
 
             channel.consume(queue, async function(msg) {
                 logger.info(msg.content.toString())
-                const response = JSON.parse(msg.content.toString())
-                await sendRedis(response.id, { id: response.id, status: 'SUCCESS'})
+                const id = getId(JSON.parse(msg.content.toString()))
+                await sendRedis(id, { id, status: 'SUCCESS'})
             }, {
                 noAck: true
             });
