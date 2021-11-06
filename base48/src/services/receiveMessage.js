@@ -15,7 +15,7 @@ module.exports = () => {
         return error
       }
 
-      const queue = process.env.QUEUE_SEND_NAME;
+      const queue = process.env.QUEUE_RECEIVER_NAME;
 
       channel.assertQueue(queue, {
         durable: false,
@@ -25,7 +25,7 @@ module.exports = () => {
         queue,
         async function (msg) {
             logger.info(msg.content.toString())
-            await operation.create(JSON.stringify(msg))
+            await operation.create(msg.content.toString())
         },
         {
           noAck: true,

@@ -3,7 +3,8 @@ const request = require('../services/request')
 const sendMessage = require('../services/sendMessage')
 
 module.exports = {
-    create: async (payload) => {
+    create: async (message) => {
+        const payload = JSON.stringify(message)
         try {
             const adapter = request(payload)
             await sendMessage(adapter)

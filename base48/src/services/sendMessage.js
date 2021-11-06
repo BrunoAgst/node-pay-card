@@ -2,7 +2,7 @@ const amqp = require("amqplib/callback_api")
 const logger = require("../config/logger")
 
 module.exports = (message) => {
-  const msg = JSON.stringify(message)
+ 
   amqp.connect(process.env.HOST_AMQP, function (error, connection) {
     if (error) {
       logger.error(error)
@@ -13,14 +13,14 @@ module.exports = (message) => {
         logger.error(error1)
         throw error1
       }
-      const queue = process.env.QUEUE_NAME
+      const queue = process.env.QUEUE_SEND_NAME
 
       channel.assertQueue(queue, {
         durable: false,
       })
 
-      channel.sendToQueue(queue, Buffer.from(msg))
-      console.log(" [x] Sent %s", msg)
+      channel.sendToQueue(queue, Buffer.from(message))
+      console.log(" [x] Sent %s", message)
     })
   })
 }
