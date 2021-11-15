@@ -25,7 +25,7 @@ module.exports = {
     cancel: async (req, res) => {
         try {
             const order_id = req.params.order_id
-            console.log(order_id)
+    
             res.status(200).json({
                 message: 'transaction canceled',
                 isValid: true
