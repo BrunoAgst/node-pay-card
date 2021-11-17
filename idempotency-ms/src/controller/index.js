@@ -11,7 +11,8 @@ module.exports = {
             const order = orderFactory(payload)
             const orderCreated = await registerOrder(order)
             const id = orderCreated.message._id.toString()
-            await requestSwitch.postRequest({id, transaction: payload.transaction})
+            const url = process.env.HOST_CREATE
+            await requestSwitch.postRequest({id, transaction: payload.transaction}, url)
 
             const interval = setInterval(async () => {
                 let response = await pollingRedis(id)

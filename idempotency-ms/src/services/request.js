@@ -1,8 +1,7 @@
 const { post } = require('axios')
 
 module.exports = {
-    postRequest: async (payload) => {
-        const url = process.env.HOST
+    postRequest: async (payload, url) => {
         return await post(url, payload)
     }
 }
