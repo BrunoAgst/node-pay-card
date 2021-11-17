@@ -6,8 +6,8 @@ module.exports = {
     create: async (message) => {
         const payload = JSON.stringify(message)
         try {
-            const adapter = request(payload)
-            await sendMessage(adapter)
+            //const adapter = request(payload)
+            await sendMessage(payload)
 
         } catch (error) {
             logger.error(error)
