@@ -1,6 +1,6 @@
 const { createClient } = require('redis')
 const logger = require('../config/logger')
-const client = createClient()
+const client = createClient(process.env.REDIS)
 
 module.exports = (key) => {
     return new Promise((resolve, reject) => {
