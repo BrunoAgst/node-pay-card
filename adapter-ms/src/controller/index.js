@@ -1,13 +1,12 @@
 const logger = require('../config/logger')
 const { postRequest } = require('../services/request')
-const EnumRoute = require('../util/EnumRoute')
 
 module.exports = {
     create: async (req, res) => {
         try {
             const payload = req.body
-            
-            await postRequest(payload, EnumRoute.CREATE)
+            const url = process.env.HOST_CREATE
+            await postRequest(payload, url)
             
     
             res.status(200).json({
