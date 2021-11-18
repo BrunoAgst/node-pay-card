@@ -1,8 +1,8 @@
 FROM node:17-alpine as base
-WORKDIR /app
-COPY package.json /app
+WORKDIR /usr/share/app
+COPY package.json /usr/share/app
 RUN npm install
-COPY . /app
+COPY . /usr/share/app
 EXPOSE 3001
 
 FROM base as dev
