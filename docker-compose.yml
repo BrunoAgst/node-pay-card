@@ -45,11 +45,15 @@ services:
     depends_on:
       - mongo
       - redis
-    build: ./idempotency-ms
+    build: 
+      context: ./idempotency-ms
+      target: dev 
     container_name: idempotency
     restart: always
     ports:
       - "3001:3001"
+    volumes:
+      - ./idempotency-ms:/usr/share/app
     environment:
       - PORT=3001
       - MONGODB=mongodb://mongo:27017/amazon
@@ -59,13 +63,15 @@ services:
     networks:
       - pay-card-network
   adapter-ms:
-    depends_on:
-      - idempotency-ms
-    build: ./adapter-ms
+    build: 
+      context: ./adapter-ms
+      target: dev
     restart: always
     container_name: adapter
     ports:
       - "3000:3000"
+    volumes:
+      - ./adapter-ms:/usr/share/app
     environment:
       - PORT=3000
       - HOST_CREATE=http://idempotency:3001/idempotency/create
@@ -75,9 +81,13 @@ services:
   switch-ms:
     depends_on:
       - rabbitmq
-    build: ./switch-ms
+    build: 
+      context: ./switch-ms
+      target: dev
     restart: always
     container_name: switch
+    volumes:
+      - ./switch-ms:/usr/share/app
     ports:
       - "3002:3002"
     environment:
@@ -89,8 +99,12 @@ services:
   base48:
     depends_on:
       - rabbitmq
-    build: ./base48
+    build: 
+      context: ./base48
+      target: dev
     restart: always
+    volumes:
+      - ./base48:/usr/share/app
     container_name: base48
     ports:
       - "3003:3003"
@@ -104,7 +118,11 @@ services:
   consumer-ms:
     depends_on:
       - rabbitmq
-    build: ./consumer-ms
+    build: 
+      context: ./consumer-ms
+      target: dev
+    volumes:
+      - ./consumer-ms:/usr/share/app
     restart: always
     container_name: consumer-ms
     ports:
