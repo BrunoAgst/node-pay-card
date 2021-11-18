@@ -1,7 +1,12 @@
-FROM node:17-alpine
-WORKDIR /app
-COPY package.json /app
+FROM node:17-alpine as base
+WORKDIR /usr/share/app
+COPY package.json /usr/share/app
 RUN npm install
-COPY . /app
-CMD node src/index.js
+COPY . /usr/share/app
 EXPOSE 3002
+
+FROM base as dev
+CMD npm run dev
+
+FROM base as start
+CMD npm run start
