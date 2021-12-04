@@ -74,8 +74,7 @@ services:
       - ./adapter-ms:/usr/share/app
     environment:
       - PORT=3000
-      - HOST_CREATE=http://idempotency:3001/idempotency/create
-      - HOST_CANCEL=http://idempotency:3001/idempotency/cancel
+      - URL_IDEMPOTENCY_CREATED=http://idempotency:3001/idempotency/create
     networks:
       - pay-card-network
   switch-ms:
