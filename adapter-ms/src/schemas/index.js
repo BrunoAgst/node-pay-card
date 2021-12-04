@@ -1,6 +1,8 @@
+'use strict'
+
 const Joi = require('joi')
 
-const createRequest = Joi.object({
+const createdRequest = Joi.object({
     name: Joi.string().required(),
     customer: Joi.object({
         name: Joi.string().required(),
@@ -17,7 +19,6 @@ const createRequest = Joi.object({
         currency: Joi.string().min(3).max(3),
         amount: Joi.string().required()
     }).required()
-
 })
 
-module.exports = createRequest
+module.exports = { createdRequest }

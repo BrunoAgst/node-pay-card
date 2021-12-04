@@ -1,8 +1,9 @@
-const router = require('express').Router()
-const handler = require('../controller')
+'use strict'
+
+const Router = require('express').Router()
+const controller = require('../controller')
 const middleware = require('../middleware')
 
-router.post('/create', middleware.create, handler.create)
-router.post('/cancel/:order_id', handler.cancel)
+Router.post('/adapter/create', middleware.create, controller.create)
 
-module.exports = router
+module.exports = Router
