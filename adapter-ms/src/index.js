@@ -1,17 +1,18 @@
-require('dotenv').config()
-const bodyParser = require('body-parser')
-const express = require('express')
-const app = express()
-const router = require('./routes')
+'use strict'
 
+require('dotenv').config()
+
+const express = require('express')
+const bodyParser = require('body-parser')
+const Router = require('./routes')
+
+const app = express()
 const PORT = process.env.PORT || 3000
 
 app.use(bodyParser.json())
-app.use(router)
+app.use(Router)
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running port ${PORT}`)
+app.listen(PORT, () => {
+    console.log('Server running', PORT)
 })
- 
-module.exports = server
 

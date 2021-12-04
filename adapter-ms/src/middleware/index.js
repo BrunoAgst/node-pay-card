@@ -1,10 +1,15 @@
-const createRequest = require('../schemas/createRequest')
+'use strict'
+
+const { createdRequest } = require("../schemas")
+
 module.exports = {
-    create: (req, res, next) => {
-        const { error } = createRequest.validate(req.body)
+    create: (request, response, next) => {
+        const { error } = createdRequest.validate(request.body)
         
         if (error) {
-            return res.status(422).json({ error: error.details[0].message })
+            response.status(422)
+            response.json({ error: error.details[0].message })
+            return
         }
 
         next()

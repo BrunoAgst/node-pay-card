@@ -1,12 +1,11 @@
+'use strict'
+
 const pino = require('pino')
-const logger = pino({
-    transport: {
-        target: 'pino-pretty',
-        options: {
-            colorize: true,
-            ignore: 'pid,hostname'
-        }
-    }
+const pretty = require('pino-pretty')
+const stream = pretty({
+    prettyPrint: { colorize: true, ignore: 'pid,hostname' }
 })
+
+const logger = pino(stream)
 
 module.exports = logger
