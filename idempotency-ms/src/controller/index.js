@@ -1,34 +1,41 @@
-const logger = require('../config/logger')
-const registerOrder = require('../services/registerOrder')
-const orderFactory = require('../factories/orderFactory')
-const requestSwitch = require('../services/request')
-const pollingRedis = require('../services/poolingRedis')
+'use strict'
+
+const OrderRepository = require("../infra/repository")
+const CreateOrder = require("../services/createOrder.js")
 
 module.exports = {
-    create: async (req, res) => {
+    
+    create: async (request, response) => {
         try {
-            const payload = req.body
-            const order = orderFactory(payload)
-            const orderCreated = await registerOrder(order)
-            const id = orderCreated.message._id.toString()
-            const url = process.env.HOST_CREATE
-            await requestSwitch.postRequest({id, transaction: payload.transaction}, url)
-
-            const interval = setInterval(async () => {
-                let response = await pollingRedis(id)
-                
-                if (response) {
-                    clearInterval(interval)
-                    return res.status(200).json({
-                        message: 'transaction success',
-                        isValid: true
-                    })
-                }
-            }, 5000)
+            const { body } = request
+            const url = process.env.HOST_SWITCH_CREATE
             
+            const createOrder = new CreateOrder()
+            const orderRepository = new OrderRepository()
+            
+            const orderFactory = createOrder.orderFactory(body)
+            const { message } = await createOrder.registerDatabase(orderFactory)
+
+            const id = message._id.toString()
+        
+            createOrder.requestSwitchMS(url, { id, transaction: body.transaction })
+
+            const { status } = await createOrder.pollingOrder(id)
+            
+            orderRepository.updateOrder(id, status)
+    
+            if(status === 'DENIED') {
+                response.status(404)
+                response.json({ message: `Transaction ${status}`, isValid: false })
+                return
+            }
+            response.status(200)
+            response.json({ message: `Transaction ${status}`, isValid: true })
+
         } catch (error) {
-            logger.error(error.message)
-            res.status(500).json({error, isValid: false})
+            response.status(500)
+            response.json({ error, isValid: false })
+
         }
     }
 }
