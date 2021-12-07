@@ -58,8 +58,7 @@ services:
       - PORT=3001
       - MONGODB=mongodb://mongo:27017/amazon
       - REDIS=redis://redis:6379
-      - HOST_CREATE=http://switch:3002/switch/create
-      - HOST_CANCEL=http://switch:3002/switch/cancel
+      - HOST_SWITCH_CREATE=http://switch:3002/switch/create
     networks:
       - pay-card-network
   adapter-ms:
@@ -117,6 +116,7 @@ services:
   consumer-ms:
     depends_on:
       - rabbitmq
+      - redis
     build: 
       context: ./consumer-ms
       target: dev
