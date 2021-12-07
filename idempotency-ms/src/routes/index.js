@@ -1,7 +1,9 @@
-const router = require('express').Router()
-const handler = require('../controller')
-const middleware = require('../middleware')
+'use strict'
 
-router.post('/idempotency/create', middleware.create, handler.create)
+const controller = require('../controller/index.js')
 
-module.exports = router
+const Router = require('express').Router()
+
+Router.post('/idempotency/create', controller.create)
+
+module.exports = Router
