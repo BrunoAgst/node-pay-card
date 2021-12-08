@@ -39,7 +39,7 @@ class OrderRepository {
         }
     }
 
-    getOrder(key){
+    getOrder(key,){
         const client = createClient(process.env.REDIS)
 
         return new Promise((resolve, reject) => {

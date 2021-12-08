@@ -3,7 +3,6 @@
 const orderFactory = require('../factories/orderFactory.js')
 const OrderRepository = require('../infra/repository/index.js')
 const ExternalService = require('../infra/services/externalService.js')
-
 class CreateOrder {
 
     orderFactory(payload){
