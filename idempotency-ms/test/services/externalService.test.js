@@ -21,4 +21,19 @@ describe('#ExternalService', () => {
 
         expect(result).toEqual(expected)
     })
+
+    test('should return error external service', async () => {
+        _jest.spyOn(
+            axios,
+            'post'
+        ).mockImplementation(() => new Error('error'))
+        
+        const url = ""
+        const payload = ""
+
+        const externalService = new ExternalService()
+        const result = await externalService.request(url, payload)
+
+        expect(result).toBeTruthy()
+    })
 })
