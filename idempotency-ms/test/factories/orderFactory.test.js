@@ -22,8 +22,8 @@ describe('#OrderFactory', () => {
                 "amount": "2000"
             }
         }
-        const orderFactory = new OrderFactory(payload)
-        const result = orderFactory.factory()
+        const orderFactory = new OrderFactory()
+        const result = orderFactory.factory(payload)
 
         const expected = {
             name: 'loja_teste',

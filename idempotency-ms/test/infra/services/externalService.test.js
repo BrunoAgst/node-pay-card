@@ -1,6 +1,6 @@
 const { describe, test, expect, jest: _jest } = require('@jest/globals')
 const axios = require('axios')
-const ExternalService = require('../../src/infra/services/externalService')
+const ExternalService = require('../../../src/infra/services/externalService')
 
 describe('#ExternalService', () => {
     test('should request external service', async () => {

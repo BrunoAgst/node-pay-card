@@ -157,20 +157,4 @@ describe('#OrderRepository', () => {
         const result = await orderRepository.updateOrder('61afa878ee85742db8706c9', 'SUCCESS')
         expect(result).toBeTruthy()
     })
-
-    test('should getOrder return key', async () => {
-        
-        const key = '61afa878ee85742db8706c9'
-
-        _jest.spyOn(
-            redis,
-            'createClient'
-        ).mockResolvedValue([])
-        
-        const orderRepository = new OrderRepository()
-        const result = await orderRepository.getOrder(key)
-        
-        expect(result).toBeNull()
-    
-    })
 })

@@ -1,35 +1,39 @@
 'use strict'
-
-const orderFactory = require('../factories/orderFactory.js')
-const OrderRepository = require('../infra/repository/index.js')
-const ExternalService = require('../infra/services/externalService.js')
 class CreateOrder {
 
-    orderFactory(payload){
-        return new orderFactory(payload).factory()
+    constructor(orderFactory, orderRepository,externalService){
+        this.ordersFactory = orderFactory
+        this.orderRepository = orderRepository
+        this.externalService = externalService
     }
 
-    async registerDatabase(payload){
-        return await new OrderRepository().registerOrder(payload)
+    orderFactory(payload){
+        return this.ordersFactory.factory(payload)
+    }
+
+    registerDatabase(payload) {
+        return this.orderRepository.registerOrder(payload)
     }
 
     requestSwitchMS(url, payload){
-        return new ExternalService().request(url, payload)
+        return this.externalService.request(url, payload)
     }
 
     pollingOrder(id) {
         return new Promise((resolve, reject) => {
 
-            const interval = setInterval(async () => {
+            const interval = setInterval( () => {
                 try {
-                    let response = await new OrderRepository().getOrder(id)
+                    let response =  this.orderRepository.getOrder(id)
                     if(response) {
+                        resolve('JSON.parse(response)')
                         clearInterval(interval)
-                        resolve(JSON.parse(response))
+                        
                     }
                 } catch(error) {
                     clearInterval(interval)
                     reject(error)
+                    return
                 }
             }, 5000)
         })
